@@ -33,7 +33,7 @@ function App() {
 
   let row = []
 
-  for (let i = 2; i < 1000; i++) {
+  for (let i = 2; i < dataRows.length; i++) {
     let temp = []
     temp.push(JSON.parse(dataRows[i]))
     let r = temp[0].map((el, index) => {
