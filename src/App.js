@@ -1,13 +1,16 @@
 import './App.css';
+import { FixedSizeList as List } from 'react-window';
+import AutoSizer from "react-virtualized-auto-sizer";
 import data from './data/erpquantity.json'
 import dataRows from './data/erprows.json'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 function App() {
 
   const [quantity, setQuantity] = useState([])
   const [erprows, setErprows] = useState([])
-  const [outRow, setOutrow] = useState([])
+  //const [outputfun, setOutputfun] = useState([])
+  var outputRef = useRef()
 
   ///// Первоначальное создание БД
   // var db = openDatabase('items', '1.0', 'Hydra', 2 * 1024 * 1024);
@@ -26,7 +29,6 @@ function App() {
   ///// Первоначальное создание БД
 
 
-
   useEffect(() => {
     let tempQ = []
     let erpR = []
@@ -41,41 +43,89 @@ function App() {
 
   }, [])
 
-  useEffect(() => {
-    if (erprows[1] && quantity[1]) {
-      let row = []
-      for (let i = 2; i < 13; i++) {
 
-        let r = erprows[i].map((el, index) => {
+
+  useEffect(() => {
+    if (quantity[1] && erprows[1]) {
+      console.log("effect!")
+      outputRef.current = function (int) {
+        let r = erprows[int].map((el, index) => {
           if (index === 21 || index === 24 || index === 25) { return <td key={index + "_key"}>JSON object</td> }
           return (
             <td key={index + "_key"}>{el}</td>
           )
-        })
-        //console.log(temp[0][35])
-        let t = quantity.filter((elm) => { //filtering ids
-          return elm[6] === erprows[i][35]
-        })
+        });
+        let t = quantity.filter((elm) => {
+          //filtering ids
+          return elm[6] === erprows[int][35]
+        });
         t.sort((a, b) => {
 
           return a[5] - b[5] || a[2] - b[2] || a[4] - b[4] //sorting in row
         })
-        let rr = t.map((elm) => {
-          return <td key={elm[1]}> {elm[1]} </td>
-        })
-        //console.log(rr)
-        row.push(<tr key={r[35].props.children}>{r}{rr}</tr>) //static cells & generated cells
+        let rr = t.map((elm, index) => {
+          return <td key={elm[1] + index}> {elm[1]} </td>;
+        });
+
+        return (
+          <>
+            <table border="1" cellSpacing="0" cellPadding="0">
+              <thead style={{ visibility: "collapse" }}>
+                <tr>
+                  {out}
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  {r}
+                  {rr}
+                </tr>
+              </tbody>
+            </table>
+          </>
+        );
       }
-
-      setOutrow(row)
-
     }
 
   }, [erprows, quantity])
 
-  console.log("temp " + quantity[1])
-  console.log("erp " + erprows[1][35])
-  console.log("ouRow " + outRow[1])
+  // useEffect(() => {
+  //   if (erprows[1] && quantity[1]) {
+  //     let row = []
+  //     for (let i = 2; i < 13; i++) {
+
+  //       let r = erprows[i].map((el, index) => {
+  //         if (index === 21 || index === 24 || index === 25) { return <td key={index + "_key"}>JSON object</td> }
+  //         return (
+  //           <td key={index + "_key"}>{el}</td>
+  //         )
+  //       })
+  //       //console.log(temp[0][35])
+  //       let t = quantity.filter((elm) => { //filtering ids
+  //         return elm[6] === erprows[i][35]
+  //       })
+  //       t.sort((a, b) => {
+
+  //         return a[5] - b[5] || a[2] - b[2] || a[4] - b[4] //sorting in row
+  //       })
+  //       let rr = t.map((elm) => {
+  //         return <td key={elm[1]}> {elm[1]} </td>
+  //       })
+  //       //console.log(rr)
+  //       row.push(<tr key={r[35].props.children}>{r}{rr}</tr>) //static cells & generated cells
+  //     }
+
+  //     setOutrow(row)
+
+  //   }
+
+  // }, [erprows, quantity])
+
+  // console.log("temp " + quantity[1])
+  // console.log("erp " + erprows[1][35])
+  // console.log("ouRow " + outRow[1])
+
 
   ///// Header of the static table
   let header = []
@@ -90,6 +140,12 @@ function App() {
 
 
 
+  const Row = ({ index, style }) => (
+    <div className={index % 2 ? "ListItemOdd" : "ListItemEven"} style={style}>
+      {/* <RowComponent i={index} /> */}
+      {outputRef.current(index)}
+    </div>
+  );
 
 
 
@@ -126,24 +182,32 @@ function App() {
 
 
   return (
-    <div className="App">
+    <AutoSizer>
 
-      <table border="1" cellSpacing="0" cellPadding="0">
+      {({ height, width }) => (
+        <>
+          <div className="App">
+            <div>
+              <table border="1" cellSpacing="0" cellPadding="0">
+                <thead>
+                  <tr>
+                    {out}
+                  </tr>
+                </thead>
+              </table>
+            </div>
+          </div>
+          <List className="List" height={height} itemCount={300} itemSize={75} width={width}>
+            {Row}
+          </List>
 
-        <thead>
-          <tr>
-            {out}
-          </tr>
-        </thead>
 
-        <tbody>
-          {outRow ? outRow : ""}
-        </tbody>
+        </>
+      )}
+    </AutoSizer>
 
-      </table>
 
-    </div>
-  );
+  )
 }
 
 export default App;

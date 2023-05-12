@@ -1,8 +1,14 @@
+body,
+html,
+#root {
+  height: 100%;
+}
+
+
 .App {
   text-align: center;
   background-color: #363640;
   color: aqua;
-
 }
 
 
@@ -59,4 +65,19 @@ th {
 
 tr {
   height: 18px;
+}
+
+.List {
+  border: 1px solid #d9dddd;
+}
+
+.ListItemEven,
+.ListItemOdd {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+}
+
+.ListItemEven {
+  background-color: #f8f8f0;
 }
