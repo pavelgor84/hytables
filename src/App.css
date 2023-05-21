@@ -9,6 +9,7 @@ html,
   text-align: center;
   background-color: #363640;
   color: aqua;
+  width: 1500px;
 }
 
 
@@ -47,18 +48,23 @@ table {
   background-color: #3c3c46;
   color: #fffffdaa;
   float: left;
-  height: 53px;
-  width: 75%;
+  height: 30px;
   border-style: solid;
   border-color: #363640;
+
+  width: 150px;
+  table-layout: fixed;
+
 
 }
 
 td,
 th {
-  border-style: solid;
+
   border-color: #363640;
-  border-width: 3px;
+  width: 200px;
+  overflow: hidden;
+
 
 }
 
@@ -79,5 +85,21 @@ tr {
 }
 
 .ListItemEven {
+  background-color: #f8f8f0;
+}
+
+.Grid {
+  border: 1px solid #d9dddd;
+}
+
+.GridItemEven,
+.GridItemOdd {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-x: auto;
+}
+
+.GridItemEven {
   background-color: #f8f8f0;
 }

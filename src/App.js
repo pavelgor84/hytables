@@ -1,5 +1,5 @@
 import './App.css';
-import { FixedSizeList as List } from 'react-window';
+import { FixedSizeList as List, FixedSizeGrid as Grid } from 'react-window';
 import AutoSizer from "react-virtualized-auto-sizer";
 import data from './data/erpquantity.json'
 import dataRows from './data/erprows.json'
@@ -9,7 +9,7 @@ function App() {
 
   const [quantity, setQuantity] = useState([])
   const [erprows, setErprows] = useState([])
-  //const [outputfun, setOutputfun] = useState([])
+  const [outRow, setOutRow] = useState([])
   var outputRef = useRef()
 
   ///// Первоначальное создание БД
@@ -45,82 +45,78 @@ function App() {
 
 
 
-  useEffect(() => {
-    if (quantity[1] && erprows[1]) {
-      console.log("effect!")
-      outputRef.current = function (int) {
-        let r = erprows[int].map((el, index) => {
-          if (index === 21 || index === 24 || index === 25) { return <td key={index + "_key"}>JSON object</td> }
-          return (
-            <td key={index + "_key"}>{el}</td>
-          )
-        });
-        let t = quantity.filter((elm) => {
-          //filtering ids
-          return elm[6] === erprows[int][35]
-        });
-        t.sort((a, b) => {
-
-          return a[5] - b[5] || a[2] - b[2] || a[4] - b[4] //sorting in row
-        })
-        let rr = t.map((elm, index) => {
-          return <td key={elm[1] + index}> {elm[1]} </td>;
-        });
-
-        return (
-          <>
-            <table border="1" cellSpacing="0" cellPadding="0">
-              <thead style={{ visibility: "collapse" }}>
-                <tr>
-                  {out}
-                </tr>
-              </thead>
-
-              <tbody>
-                <tr>
-                  {r}
-                  {rr}
-                </tr>
-              </tbody>
-            </table>
-          </>
-        );
-      }
-    }
-
-  }, [erprows, quantity])
-
   // useEffect(() => {
-  //   if (erprows[1] && quantity[1]) {
-  //     let row = []
-  //     for (let i = 2; i < 13; i++) {
-
-  //       let r = erprows[i].map((el, index) => {
+  //   if (quantity[1] && erprows[1]) {
+  //     console.log("effect!")
+  //     outputRef.current = function (int) {
+  //       let r = erprows[int].map((el, index) => {
   //         if (index === 21 || index === 24 || index === 25) { return <td key={index + "_key"}>JSON object</td> }
   //         return (
   //           <td key={index + "_key"}>{el}</td>
   //         )
-  //       })
-  //       //console.log(temp[0][35])
-  //       let t = quantity.filter((elm) => { //filtering ids
-  //         return elm[6] === erprows[i][35]
-  //       })
+  //       });
+  //       let t = quantity.filter((elm) => {
+  //         //filtering ids
+  //         return elm[6] === erprows[int][35]
+  //       });
   //       t.sort((a, b) => {
 
   //         return a[5] - b[5] || a[2] - b[2] || a[4] - b[4] //sorting in row
   //       })
-  //       let rr = t.map((elm) => {
-  //         return <td key={elm[1]}> {elm[1]} </td>
-  //       })
-  //       //console.log(rr)
-  //       row.push(<tr key={r[35].props.children}>{r}{rr}</tr>) //static cells & generated cells
+  //       let rr = t.map((elm, index) => {
+  //         return <td key={elm[1] + index}> {elm[1]} </td>;
+  //       });
+
+  //       return (
+  //         <>
+  //           <table border="1" cellSpacing="0" cellPadding="0">
+  //             <thead style={{ visibility: "collapse" }}>
+  //               <tr>
+  //                 {out}
+  //               </tr>
+  //             </thead>
+
+  //             <tbody>
+  //               <tr>
+  //                 {r}
+  //                 {rr}
+  //               </tr>
+  //             </tbody>
+  //           </table>
+  //         </>
+  //       );
+
   //     }
-
-  //     setOutrow(row)
-
   //   }
 
   // }, [erprows, quantity])
+
+  useEffect(() => {
+    if (erprows[1] && quantity[1]) {
+      let row = []
+      for (let i = 2; i < 55; i++) {
+        let temp = []
+        let flat = []
+
+        let t = quantity.filter((elm) => { //filtering ids
+          return elm[6] === erprows[i][35]
+        })
+        t.sort((a, b) => {
+
+          return a[5] - b[5] || a[2] - b[2] || a[4] - b[4] //sorting in row
+        })
+        temp.push(erprows[i], ...t)
+        flat = temp.flat(3)
+
+        row.push(flat) //static cells & generated cells
+      }
+      //console.log(row[1])
+      setOutRow(row)
+
+
+    }
+
+  }, [erprows, quantity])
 
   // console.log("temp " + quantity[1])
   // console.log("erp " + erprows[1][35])
@@ -128,6 +124,8 @@ function App() {
 
 
   ///// Header of the static table
+
+  //LGORT,
   let header = []
   header.push(JSON.parse(dataRows[0]))
 
@@ -143,10 +141,28 @@ function App() {
   const Row = ({ index, style }) => (
     <div className={index % 2 ? "ListItemOdd" : "ListItemEven"} style={style}>
       {/* <RowComponent i={index} /> */}
-      {outputRef.current(index)}
+
+
+      {outputRef.current && outputRef.current(index)}
     </div>
   );
 
+  const Cell = ({ columnIndex, rowIndex, style }) => (
+    <div
+      className={
+        columnIndex % 2
+          ? rowIndex % 2 === 0
+            ? 'GridItemOdd'
+            : 'GridItemEven'
+          : rowIndex % 2
+            ? 'GridItemOdd'
+            : 'GridItemEven'
+      }
+      style={style}
+    >
+      {outRow[1] && outRow[rowIndex][columnIndex]}
+    </div>
+  );
 
 
 
@@ -182,24 +198,36 @@ function App() {
 
 
   return (
-    <AutoSizer>
+    <AutoSizer disableWidth>
 
-      {({ height, width }) => (
+      {({ height }) => (
         <>
           <div className="App">
-            <div>
-              <table border="1" cellSpacing="0" cellPadding="0">
-                <thead>
-                  <tr>
-                    {out}
-                  </tr>
-                </thead>
-              </table>
-            </div>
+
+            <table border="0" cellSpacing="0" cellPadding="0">
+              <thead>
+                <tr>
+                  {out}
+                </tr>
+              </thead>
+            </table>
+
           </div>
-          <List className="List" height={height} itemCount={300} itemSize={75} width={width}>
+          {/* <List className="List" height={height} itemCount={dataRows.length} itemSize={75} width={width}>
             {Row}
-          </List>
+          </List> */}
+
+          <Grid
+            className="Grid"
+            columnCount={60}
+            columnWidth={200}
+            height={height}
+            rowCount={49}
+            rowHeight={100}
+            width={11000}
+          >
+            {Cell}
+          </Grid>
 
 
         </>
