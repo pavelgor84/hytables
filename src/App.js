@@ -90,33 +90,33 @@ function App() {
   //   }
 
   // }, [erprows, quantity])
+  //---------------------------------------------------------
+  // useEffect(() => {
+  //   if (erprows[1] && quantity[1]) {
+  //     let row = []
+  //     for (let i = 2; i < erprows.length; i++) {
+  //       let temp = []
+  //       let flat = []
 
-  useEffect(() => {
-    if (erprows[1] && quantity[1]) {
-      let row = []
-      for (let i = 2; i < 55; i++) {
-        let temp = []
-        let flat = []
+  //       let t = quantity.filter((elm) => { //filtering ids
+  //         return elm[6] === erprows[i][35]
+  //       })
+  //       t.sort((a, b) => {
 
-        let t = quantity.filter((elm) => { //filtering ids
-          return elm[6] === erprows[i][35]
-        })
-        t.sort((a, b) => {
+  //         return a[5] - b[5] || a[2] - b[2] || a[4] - b[4] //sorting in row
+  //       })
+  //       temp.push(erprows[i], ...t)
+  //       flat = temp.flat(3)
 
-          return a[5] - b[5] || a[2] - b[2] || a[4] - b[4] //sorting in row
-        })
-        temp.push(erprows[i], ...t)
-        flat = temp.flat(3)
-
-        row.push(flat) //static cells & generated cells
-      }
-      //console.log(row[1])
-      setOutRow(row)
+  //       row.push(flat) //static cells & generated cells
+  //     }
+  //     //console.log(row[1])
+  //     setOutRow(row)
 
 
-    }
+  //   }
 
-  }, [erprows, quantity])
+  // }, [erprows, quantity])
 
   // console.log("temp " + quantity[1])
   // console.log("erp " + erprows[1][35])
@@ -222,7 +222,7 @@ function App() {
             columnCount={60}
             columnWidth={200}
             height={height}
-            rowCount={49}
+            rowCount={erprows.length}
             rowHeight={100}
             width={11000}
           >
