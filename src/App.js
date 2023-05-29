@@ -37,7 +37,7 @@ function App() {
       //tempQ.push(JSON.parse(data[i]))
       let temp = JSON.parse(data[i])
       //['PPP', 'ppp_48_11_2023', 11, 0, 48, 2023, '6107B00B-7DCE-4660-8955-EF2D730B5879']
-      lib
+
 
 
     }
