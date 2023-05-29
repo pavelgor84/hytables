@@ -10,7 +10,7 @@ function App() {
   const [quantity, setQuantity] = useState([])
   const [erprows, setErprows] = useState([])
   const [outRow, setOutRow] = useState([])
-  var outputRef = useRef()
+  //var outputRef = useRef()
 
   ///// Первоначальное создание БД
   // var db = openDatabase('items', '1.0', 'Hydra', 2 * 1024 * 1024);
@@ -32,8 +32,14 @@ function App() {
   useEffect(() => {
     let tempQ = []
     let erpR = []
-    for (let i = 2; i < data.length; i++) {
-      tempQ.push(JSON.parse(data[i]))
+    let lib = {}
+    for (let i = 2; i < 10; i++) {
+      //tempQ.push(JSON.parse(data[i]))
+      let temp = JSON.parse(data[i])
+      //['PPP', 'ppp_48_11_2023', 11, 0, 48, 2023, '6107B00B-7DCE-4660-8955-EF2D730B5879']
+      lib
+
+
     }
     for (let i = 2; i < dataRows.length; i++) {
       erpR.push(JSON.parse(dataRows[i]))
