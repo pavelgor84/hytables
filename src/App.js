@@ -3,13 +3,14 @@ import { FixedSizeList as List, FixedSizeGrid as Grid } from 'react-window';
 import AutoSizer from "react-virtualized-auto-sizer";
 import data from './data/erpquantity.json'
 import dataRows from './data/erprows.json'
+import months from './data/timeline.json'
 import { useState, useEffect, useRef } from 'react'
 
 function App() {
 
   const [quantity, setQuantity] = useState([])
   const [erprows, setErprows] = useState([])
-  const [outRow, setOutRow] = useState([])
+  //const [outRow, setOutRow] = useState([])
   //var outputRef = useRef()
 
   ///// Первоначальное создание БД
@@ -33,13 +34,10 @@ function App() {
     let tempQ = []
     let erpR = []
     let lib = {}
-    for (let i = 2; i < 10; i++) {
-      //tempQ.push(JSON.parse(data[i]))
-      let temp = JSON.parse(data[i])
+    for (let i = 2; i < data.length; i++) {
+      tempQ.push(JSON.parse(data[i]))
+      //let temp = JSON.parse(data[i])
       //['PPP', 'ppp_48_11_2023', 11, 0, 48, 2023, '6107B00B-7DCE-4660-8955-EF2D730B5879']
-
-
-
     }
     for (let i = 2; i < dataRows.length; i++) {
       erpR.push(JSON.parse(dataRows[i]))
@@ -97,32 +95,62 @@ function App() {
 
   // }, [erprows, quantity])
   //---------------------------------------------------------
-  // useEffect(() => {
-  //   if (erprows[1] && quantity[1]) {
-  //     let row = []
-  //     for (let i = 2; i < erprows.length; i++) {
-  //       let temp = []
-  //       let flat = []
 
-  //       let t = quantity.filter((elm) => { //filtering ids
-  //         return elm[6] === erprows[i][35]
-  //       })
-  //       t.sort((a, b) => {
+  useEffect(() => {
+    if (erprows[1] && quantity[1]) {
+      let row = []
+      let timeObject = {}
+      timeObject[new Date().getFullYear()] = months
+      timeObject[new Date().getFullYear() - 1] = months
+      timeObject[new Date().getFullYear() - 2] = months
 
-  //         return a[5] - b[5] || a[2] - b[2] || a[4] - b[4] //sorting in row
-  //       })
-  //       temp.push(erprows[i], ...t)
-  //       flat = temp.flat(3)
+      function timeCells(timeObject) {
+        let arr = []
+        for (const property in timeObject) {
 
-  //       row.push(flat) //static cells & generated cells
-  //     }
-  //     //console.log(row[1])
-  //     setOutRow(row)
+          const weekObj = timeObject[property]
+          for (const week in weekObj) {
+            //console.log(`${week} : ${weekObj[week]}`)
+            const params = weekObj[week]
+            for (const value in params) {
+              //console.log(`${value} : ${params[value]}`)
+              arr.push(`${value} : ${params[value]}`)
+            }
+          }
+        }
+        //console.log(arr)
+        return arr
+      }
+
+      for (let i = 2; i < 10; i++) {
+
+        let temp = []
+        let flat = []
+
+        let t = quantity.filter((elm) => { //filtering ids
+          return elm[6] === erprows[i][35]
+        })
+        //['PPP', 'ppp_48_11_2023', 11, 0, 48, 2023, '6107B00B-7DCE-4660-8955-EF2D730B5879']
+        //console.log(t)
+        for (let item of t) {
+          //console.log(item[5], item[2], item[4], item[0])
+          timeObject[item[5]][item[2]][item[4]][item[0]] = item[3]
+        }
+        let nextRow = timeCells(timeObject[new Date().getFullYear()])
+
+        temp.push(...erprows[i], ...nextRow)
+        console.log(temp)
+        // flat = temp.flat(3)
+
+        // row.push(flat) //static cells & generated cells
+      }
+      //console.log(row[1])
+      //setOutRow(row)
 
 
-  //   }
+    }
 
-  // }, [erprows, quantity])
+  }, [erprows, quantity])
 
   // console.log("temp " + quantity[1])
   // console.log("erp " + erprows[1][35])
@@ -149,7 +177,7 @@ function App() {
       {/* <RowComponent i={index} /> */}
 
 
-      {outputRef.current && outputRef.current(index)}
+      {/* {outputRef.current && outputRef.current(index)} */}
     </div>
   );
 
@@ -166,7 +194,8 @@ function App() {
       }
       style={style}
     >
-      {outRow[1] && outRow[rowIndex][columnIndex]}
+      {/* {outRow[1] && outRow[rowIndex][columnIndex]} */}
+      Item {rowIndex},{columnIndex}
     </div>
   );
 
