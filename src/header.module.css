@@ -1,0 +1,41 @@
+.headerContainer {
+    width: 100%;
+    display: flex;
+
+}
+
+.productHeader {
+    min-width: 200px;
+    height: 60px;
+    background-color: blueviolet;
+    word-wrap: break-word;
+    text-align: center;
+
+}
+
+.timeContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.month {
+    text-align: center;
+    background-color: bisque;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+
+.weekContainer {
+    max-width: 1000px;
+    display: flex;
+}
+
+.week {
+    text-align: center;
+    min-width: 200px;
+    background-color: aqua;
+
+}

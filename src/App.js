@@ -1,4 +1,5 @@
 import './App.css';
+import styles from './header.module.css'
 import { FixedSizeList as List, FixedSizeGrid as Grid } from 'react-window';
 import AutoSizer from "react-virtualized-auto-sizer";
 import data from './data/erpquantity.json'
@@ -10,7 +11,7 @@ function App() {
 
   const [quantity, setQuantity] = useState([])
   const [erprows, setErprows] = useState([])
-  //const [outRow, setOutRow] = useState([])
+  const [outRow, setOutRow] = useState([])
   //var outputRef = useRef()
 
   ///// Первоначальное создание БД
@@ -100,22 +101,23 @@ function App() {
     if (erprows[1] && quantity[1]) {
       let row = []
       let timeObject = {}
-      timeObject[new Date().getFullYear()] = months
-      timeObject[new Date().getFullYear() - 1] = months
-      timeObject[new Date().getFullYear() - 2] = months
+
 
       function timeCells(timeObject) {
         let arr = []
+
         for (const property in timeObject) {
 
           const weekObj = timeObject[property]
           for (const week in weekObj) {
             //console.log(`${week} : ${weekObj[week]}`)
             const params = weekObj[week]
+            let arrParams = []
             for (const value in params) {
               //console.log(`${value} : ${params[value]}`)
-              arr.push(`${value} : ${params[value]}`)
+              arrParams.push(`${value} : ${params[value]}`)
             }
+            arr.push(arrParams)
           }
         }
         //console.log(arr)
@@ -123,6 +125,10 @@ function App() {
       }
 
       for (let i = 2; i < 10; i++) {
+
+        timeObject[new Date().getFullYear()] = months
+        timeObject[new Date().getFullYear() - 1] = months
+        timeObject[new Date().getFullYear() - 2] = months
 
         let temp = []
         let flat = []
@@ -137,15 +143,15 @@ function App() {
           timeObject[item[5]][item[2]][item[4]][item[0]] = item[3]
         }
         let nextRow = timeCells(timeObject[new Date().getFullYear()])
+        console.log(timeObject)
+        row.push([...erprows[i], ...nextRow])
 
-        temp.push(...erprows[i], ...nextRow)
-        console.log(temp)
         // flat = temp.flat(3)
 
         // row.push(flat) //static cells & generated cells
       }
       //console.log(row[1])
-      //setOutRow(row)
+      setOutRow(row)
 
 
     }
@@ -165,7 +171,8 @@ function App() {
 
   const out = header[0].map((el, index) => {
     return (
-      <th key={index + "_key"} className='table'>{el}</th>
+      //<th key={index + "_key"} className='table'>{el}</th>
+      <div key={index + "_key"} className={styles.productHeader}> {el}</div>
     )
   })
   ///// Header of the static table
@@ -194,8 +201,8 @@ function App() {
       }
       style={style}
     >
-      {/* {outRow[1] && outRow[rowIndex][columnIndex]} */}
-      Item {rowIndex},{columnIndex}
+      {outRow[1] && outRow[rowIndex][columnIndex]}
+      {/* Item {rowIndex},{columnIndex} */}
     </div>
   );
 
@@ -237,15 +244,31 @@ function App() {
 
       {({ height }) => (
         <>
-          <div className="App">
+          <div className={styles.headerContainer}>
+            {out}
+            <div className={styles.timeContainer}>
+              <div>YEAR</div>
+              <div className={styles.month}> MONTH
+                <div className={styles.weekContainer}>
+                  <div className={styles.week}>week1</div>
+                  <div className={styles.week}>week2</div>
+                  <div className={styles.week}>week3</div>
+                  <div className={styles.week}>week4</div>
+                </div>
+              </div>
 
-            <table border="0" cellSpacing="0" cellPadding="0">
+            </div>
+
+
+
+
+            {/* <table border="0" cellSpacing="0" cellPadding="0">
               <thead>
                 <tr>
                   {out}
                 </tr>
               </thead>
-            </table>
+            </table> */}
 
           </div>
           {/* <List className="List" height={height} itemCount={dataRows.length} itemSize={75} width={width}>
@@ -257,7 +280,7 @@ function App() {
             columnCount={60}
             columnWidth={200}
             height={height}
-            rowCount={erprows.length}
+            rowCount={7}
             rowHeight={100}
             width={11000}
           >
