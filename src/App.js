@@ -12,6 +12,7 @@ function App() {
   const [quantity, setQuantity] = useState([])
   const [erprows, setErprows] = useState([])
   const [outRow, setOutRow] = useState([])
+  //console.log(outRow)
   //var outputRef = useRef()
 
   ///// Первоначальное создание БД
@@ -113,11 +114,16 @@ function App() {
             //console.log(`${week} : ${weekObj[week]}`)
             const params = weekObj[week]
             let arrParams = []
+            let p = {}
             for (const value in params) {
               //console.log(`${value} : ${params[value]}`)
-              arrParams.push(`${value} : ${params[value]}`)
+              // arrParams.push(`${value} : ${params[value]}`)
+              p[value] = params[value]
+              //arrParams.push(p)
             }
-            arr.push(arrParams)
+            //console.log(p)
+
+            arr.push(p)
           }
         }
         //console.log(arr)
@@ -143,7 +149,7 @@ function App() {
           timeObject[item[5]][item[2]][item[4]][item[0]] = item[3]
         }
         let nextRow = timeCells(timeObject[new Date().getFullYear()])
-        console.log(timeObject)
+        //console.log(timeObject)
         row.push([...erprows[i], ...nextRow])
 
         // flat = temp.flat(3)
@@ -177,7 +183,18 @@ function App() {
   })
   ///// Header of the static table
 
+  function cellOutput(item, columnIndex) {
+    if (columnIndex >= erprows[0].length) {
+      return (
+        <div>
+          <button>{item.PPP}</button>
+          <button>{item?.SHIPMENT}</button>
 
+        </div>
+      )
+    }
+    else return item
+  }
 
   const Row = ({ index, style }) => (
     <div className={index % 2 ? "ListItemOdd" : "ListItemEven"} style={style}>
@@ -201,7 +218,8 @@ function App() {
       }
       style={style}
     >
-      {outRow[1] && outRow[rowIndex][columnIndex]}
+      {outRow[1] && cellOutput(outRow[rowIndex][columnIndex], columnIndex)}
+      {/* {outRow[1] && outRow[rowIndex][columnIndex]} */}
       {/* Item {rowIndex},{columnIndex} */}
     </div>
   );
