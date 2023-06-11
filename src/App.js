@@ -149,7 +149,7 @@ function App() {
           timeObject[item[5]][item[2]][item[4]][item[0]] = item[3]
         }
         let nextRow = timeCells(timeObject[new Date().getFullYear()])
-        //console.log(timeObject)
+        //console.log(nextRow)
         row.push([...erprows[i], ...nextRow])
 
         // flat = temp.flat(3)
@@ -181,14 +181,61 @@ function App() {
       <div key={index + "_key"} className={styles.productHeader}> {el}</div>
     )
   })
+  let res = []
+  for (const m in months) {
+
+    const weekObj = months[m]
+    let weekArr = []
+    for (const week in weekObj) {
+      //console.log(`${m}:${week}`)
+      weekArr.push(week)
+    }
+    res.push(weekArr)
+    //   // for (const value in params) {
+    //   //   //console.log(`${value} : ${params[value]}`)
+    //   //   // arrParams.push(`${value} : ${params[value]}`)
+    //   //   p[value] = params[value]
+    //   //   //arrParams.push(p)
+    //   // }
+    //   //console.log(p)
+
+
+    // }
+  }
+  console.log(res)
+
+
   ///// Header of the static table
 
   function cellOutput(item, columnIndex) {
     if (columnIndex >= erprows[0].length) {
       return (
         <div>
-          <button>{item.PPP}</button>
-          <button>{item?.SHIPMENT}</button>
+          {item.SPECIFIC !== undefined ? <div className={styles.cellInput}>
+            <label for="SNMPFname">SPECIFIC</label>
+            <input size='7' type="text" id={styles.input} name="SPECIFICname" value={item.SPECIFIC} />
+          </div> : null}
+          {item.SNMPF !== undefined ? <div className={styles.cellInput}>
+            <label for="SNMPFname">SNMPF</label>
+            <input size='7' type="text" id={styles.input} name="SNMPFname" value={item.SNMPF} />
+          </div> : null}
+          {item.PLZM !== undefined ? <div className={styles.cellInput}>
+            <label for="PLZMname">PLZM</label>
+            <input size='7' type="text" id={styles.input} name="PLZMname" value={item.PLZM} />
+          </div> : null}
+          {item.LGORT !== undefined ? <div className={styles.cellInput}>
+            <label for="LGORTname">LGORT</label>
+            <input size='7' type="text" id={styles.input} name="LGORTname" value={item.LGORT} />
+          </div> : null}
+          {item.PPP !== undefined ? <div className={styles.cellInput}>
+            <label for="PPPname">PPP</label>
+            <input size='7' type="text" id={styles.input} name="PPPname" value={item.PPP} />
+          </div> : null}
+          {item.SHIPMENT !== undefined ? <div className={styles.cellInput}>
+            <label for="SHIPMENTname">SHIPMENT</label>
+            <input size='7' type="text" id={styles.input} name="SHIPMENTname" value={item.SHIPMENT} />
+          </div> : null}
+
 
         </div>
       )
