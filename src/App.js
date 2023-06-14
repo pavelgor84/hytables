@@ -207,7 +207,7 @@ function App() {
   const monthsRow = res.map((item, index) => {
     return (
       <div className={styles.timeContainer}>
-        <div cla>{new Date().getFullYear()}</div>
+        <div className={styles.year}>{new Date().getFullYear()}</div>
         <div className={styles.month}> {calendar[index]}
           <div className={styles.weekContainer}>
 
@@ -302,7 +302,7 @@ function App() {
       }
       style={style}
     >
-      {outRow[1] && cellOutput(outRow[rowIndex][columnIndex], columnIndex)}
+      {outRow[1] && cellOutput(outRow[rowIndex][columnIndex] || "", columnIndex)}
       {/* {outRow[1] && outRow[rowIndex][columnIndex]} */}
       {/* Item {rowIndex},{columnIndex} */}
     </div>
@@ -380,12 +380,12 @@ function App() {
 
           <Grid
             className="Grid"
-            columnCount={60}
+            columnCount={118}
             columnWidth={200}
             height={height}
             rowCount={7}
             rowHeight={100}
-            width={11000}
+            width={21625}
           >
             {Cell}
           </Grid>

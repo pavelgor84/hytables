@@ -22,6 +22,10 @@
 
 }
 
+.year {
+    text-align: center;
+}
+
 .month {
     text-align: center;
     background-color: bisque;
