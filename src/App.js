@@ -203,6 +203,43 @@ function App() {
     // }
   }
   console.log(res)
+  const calendar = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const monthsRow = res.map((item, index) => {
+    return (
+      <div className={styles.timeContainer}>
+        <div cla>{new Date().getFullYear()}</div>
+        <div className={styles.month}> {calendar[index]}
+          <div className={styles.weekContainer}>
+
+            {item.map((item, index) => {
+              if (index === 0) {
+                return <div className={styles.week}>Month Data</div>
+              }
+              else return <div className={styles.week}>week{item - 1}</div>
+
+
+            })}
+
+          </div>
+        </div>
+
+      </div>
+    )
+  })
+  //console.log(monthsRow)
+
+  // <div className={styles.timeContainer}>
+  //             <div>YEAR</div>
+  //             <div className={styles.month}> MONTH
+  //               <div className={styles.weekContainer}>
+  //                 <div className={styles.week}>week1</div>
+  //                 <div className={styles.week}>week2</div>
+  //                 <div className={styles.week}>week3</div>
+  //                 <div className={styles.week}>week4</div>
+  //               </div>
+  //             </div>
+
+  //           </div>
 
 
   ///// Header of the static table
@@ -311,7 +348,8 @@ function App() {
         <>
           <div className={styles.headerContainer}>
             {out}
-            <div className={styles.timeContainer}>
+            {monthsRow}
+            {/* <div className={styles.timeContainer}>
               <div>YEAR</div>
               <div className={styles.month}> MONTH
                 <div className={styles.weekContainer}>
@@ -322,7 +360,7 @@ function App() {
                 </div>
               </div>
 
-            </div>
+            </div> */}
 
 
 
