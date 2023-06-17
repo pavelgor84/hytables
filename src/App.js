@@ -130,16 +130,20 @@ function App() {
         return arr
       }
 
-      for (let i = 2; i < 10; i++) {
+      for (let i = 2; i < erprows.length; i++) { //268 -good, 269 - fail
 
         timeObject[new Date().getFullYear()] = months
+        timeObject[new Date().getFullYear() + 1] = months
         timeObject[new Date().getFullYear() - 1] = months
         timeObject[new Date().getFullYear() - 2] = months
 
         let temp = []
         let flat = []
 
+        //if (i == 215) { console.log(erprows[i]) }
+
         let t = quantity.filter((elm) => { //filtering ids
+
           return elm[6] === erprows[i][35]
         })
         //['PPP', 'ppp_48_11_2023', 11, 0, 48, 2023, '6107B00B-7DCE-4660-8955-EF2D730B5879']
@@ -202,7 +206,7 @@ function App() {
 
     // }
   }
-  console.log(res)
+  //console.log(res)
   const calendar = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   const monthsRow = res.map((item, index) => {
     return (
@@ -383,9 +387,9 @@ function App() {
             columnCount={118}
             columnWidth={200}
             height={height}
-            rowCount={7}
+            rowCount={erprows.length}
             rowHeight={100}
-            width={21625}
+            width={22400}
           >
             {Cell}
           </Grid>

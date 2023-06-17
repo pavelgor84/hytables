@@ -1,9 +1,8 @@
 .headerContainer {
-    width: 11000px;
+    width: 8000px;
     display: flex;
     position: sticky;
     top: 0;
-    border: 1px solid green;
 
 }
 
@@ -12,6 +11,7 @@
     height: 60px;
     word-wrap: break-word;
     text-align: center;
+    box-shadow: inset 0px 0px 3px 0px #3DDB3D;
 
 }
 
@@ -24,6 +24,7 @@
 
 .year {
     text-align: center;
+    box-shadow: inset 0px 0px 3px 0px #3DDB3D;
 }
 
 .month {
@@ -32,20 +33,20 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    border: 1px solid blue;
+    box-shadow: inset 0px 0px 3px 0px #3DDB3D;
 
 }
 
 .weekContainer {
-    max-width: 1200px;
+    max-width: 1400px;
     display: flex;
 }
 
 .week {
     text-align: center;
     min-width: 200px;
-    background-color: aqua;
-    border: 1px solid blue;
+    background-color: white;
+    box-shadow: inset 0px 0px 3px 0px #3DDB3D;
 }
 
 .cellInput {
