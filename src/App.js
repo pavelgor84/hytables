@@ -212,20 +212,20 @@ function App() {
     return (
       <div className={styles.timeContainer}>
         <div className={styles.year}>{new Date().getFullYear()}</div>
-        <div className={styles.month}> {calendar[index]}
-          <div className={styles.weekContainer}>
+        <div className={styles.month}> {calendar[index]}</div>
+        <div className={styles.weekContainer}>
 
-            {item.map((item, index) => {
-              if (index === 0) {
-                return <div className={styles.week}>Month Data</div>
-              }
-              else return <div className={styles.week}>week{item - 1}</div>
+          {item.map((item, index) => {
+            if (index === 0) {
+              return <div className={styles.week}>Month Data</div>
+            }
+            else return <div className={styles.week}>week{item - 1}</div>
 
 
-            })}
+          })}
 
-          </div>
         </div>
+
 
       </div>
     )

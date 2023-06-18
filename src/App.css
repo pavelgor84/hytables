@@ -86,10 +86,11 @@ tr {
 
 .ListItemEven {
   background-color: #f8f8f0;
+
 }
 
 .Grid {
-  border: 1px solid #d9dddd;
+  border: 1px solid #363640;
 
 }
 
@@ -99,8 +100,10 @@ tr {
   align-items: center;
   justify-content: center;
   overflow-x: auto;
+  background-color: #363640;
+  color: #fffffdaa;
 }
 
 .GridItemEven {
-  background-color: #f8f8f0;
+  background-color: #3c3c46;
 }
